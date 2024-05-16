@@ -44,6 +44,10 @@ clean:
 data:
 	python $(PROJECT_NAME)/data/make_dataset.py
 
+## Train the model on processed data
+train:
+	python $(PROJECT_NAME)/models/train_model.py
+
 #################################################################################
 # Documentation RULES                                                           #
 #################################################################################

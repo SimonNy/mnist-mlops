@@ -179,3 +179,5 @@ cython_debug/
 # Package specifics
 *.pt
 /data
+/models
+/reports

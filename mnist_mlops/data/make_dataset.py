@@ -7,8 +7,8 @@ def normalize(images: torch.Tensor) -> torch.Tensor:
     return (images - images.mean()) / images.std
 
 @click.command()
-@click.option("raw_dir", default="data/raw", help="Path to row data directory")
-@click.option("processed_dir", default="data/processed", help="Path to processed data directory")
+@click.option("--raw_dir", default="data/raw", help="Path to raw data directory")
+@click.option("--processed_dir", default="data/processed", help="Path to processed data directory")
 
 def make_data(raw_dir: str, processed_dir: str):
     """Process raw data and save it to processed directory"""
@@ -31,3 +31,7 @@ def make_data(raw_dir: str, processed_dir: str):
     torch.save(train_target, f"{processed_dir}/train_target.pt")
     torch.save(test_images, f"{processed_dir}/test_images.pt")
     torch.save(test_target, f"{processed_dir}/test_target.pt")
+
+
+if __name__ == "__main__":
+    make_data()

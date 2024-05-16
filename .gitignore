@@ -177,4 +177,5 @@ cython_debug/
 #.idea/
 
 # Package specifics
-data/
+*.pt
+/data

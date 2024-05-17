@@ -1,8 +1,10 @@
 import torch
 from torch import nn
 
+
 class MyCNN(torch.nn.Module):
-    """ Basic Convolutional neural network class. """
+    """Basic Convolutional neural network class."""
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -14,11 +16,13 @@ class MyCNN(torch.nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Forward pass of the model.
-        
+
         Args:
+        ----
             x: input tensor expected to be of shape [N,in_features]
 
         Returns:
+        -------
             Output tensor with shape [N,out_features]
 
         """
@@ -32,12 +36,13 @@ class MyCNN(torch.nn.Module):
         x = self.dropout(x)
         x = self.fc1(x)
         return x
-    
-if __name__ == "__main__":
-        model = MyCNN()
-        print(f"Model architecture {model}")
-        print(f"Number of parameters {sum(p.numel() for p in model.parameters())}")
 
-        dummy_input = torch.rands(1, 1, 28, 28)
-        output = model(dummy_input)
-        print(f"Output shape {output.shape}")
+
+if __name__ == "__main__":
+    model = MyCNN()
+    print(f"Model architecture {model}")
+    print(f"Number of parameters {sum(p.numel() for p in model.parameters())}")
+
+    dummy_input = torch.rands(1, 1, 28, 28)
+    output = model(dummy_input)
+    print(f"Output shape {output.shape}")

@@ -1,4 +1,5 @@
 import os
+
 import click
 import torch
 
@@ -7,10 +8,10 @@ def normalize(images: torch.Tensor) -> torch.Tensor:
     """Normalize images."""
     return (images - images.mean()) / images.std
 
-@click.command()
-@click.option("--raw_dir", default=os.path.join("data","raw"), help="Path to raw data directory")
-@click.option("--processed_dir", default=os.path.join("data","processed"), help="Path to processed data directory")
 
+@click.command()
+@click.option("--raw_dir", default=os.path.join("data", "raw"), help="Path to raw data directory")
+@click.option("--processed_dir", default=os.path.join("data", "processed"), help="Path to processed data directory")
 def make_data(raw_dir: str, processed_dir: str):
     """Process raw data and save it to processed directory"""
     train_images, train_target = [], []
@@ -21,7 +22,7 @@ def make_data(raw_dir: str, processed_dir: str):
     train_target = torch.cat(train_target)
 
     test_images: torch.Tensor = torch.load(os.path.join(raw_dir, "test_images.pt"))
-    test_target: torch.Tensor = torch.load(os.path.join(raw_dir,"test_target.pt"))
+    test_target: torch.Tensor = torch.load(os.path.join(raw_dir, "test_target.pt"))
 
     train_images = train_images.unsqueeze(1).float()
     test_images = test_images.unsqueeze(1).float()

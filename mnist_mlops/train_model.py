@@ -1,18 +1,22 @@
 import os
+
 import click
 import matplotlib.pyplot as plt
 import torch
+
 from models.model import MyCNN
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+
 
 @click.group()
 def cli():
     """Command line interface."""
     pass
 
+
 @click.command()
-@click.option("--lr", default=1.e3, help="learning rate to use for training")
+@click.option("--lr", default=1.0e3, help="learning rate to use for training")
 @click.option("--batch_size", default=32, help="batch size to use for training")
 @click.option("--epochs", default=10, help="number of epochs to train for")
 @click.option("--processed_dir", default=os.path.join("data", "processed"), help="Path to processed data directory")
@@ -60,6 +64,7 @@ def train(lr: float, batch_size: int, epochs: int, processed_dir: str, models_di
     axs[1].set_title("Train accuracy")
     fig.savefig(os.path.join(figures_dir, "training_statistics.png"))
 
+
 @click.command()
 @click.argument("model_checkpoint")
 @click.option("--processed_dir", default=os.path.join("data", "processed"), help="Path to processed data directory")
@@ -70,7 +75,7 @@ def evaluate(model_checkpoint, processed_dir) -> None:
 
     model = MyCNN().to(DEVICE)
     model.load_state_dict(torch.load(model_checkpoint))
-    
+
     test_images = torch.load(os.path.join(processed_dir, "test_images.pt"))
     test_target = torch.load(os.path.join(processed_dir, "test_target.pt"))
 
@@ -86,6 +91,7 @@ def evaluate(model_checkpoint, processed_dir) -> None:
         correct += (y_pred.argmax(dim=1) == target).float().sum().item()
         total += target.size(0)
     print(f"Test accuracy: {correct / total}")
+
 
 cli.add_command(train)
 cli.add_command(evaluate)

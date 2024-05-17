@@ -25,3 +25,12 @@ dev = {file = ['requirements_dev.txt']}
 
 [tool.ruff]
 line-length = 120
+
+[tool.ruff.lint]
+select = ["D", "E", "F", "I"]
+
+fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

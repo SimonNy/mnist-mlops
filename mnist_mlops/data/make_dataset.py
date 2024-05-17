@@ -13,13 +13,13 @@ def normalize(images: torch.Tensor) -> torch.Tensor:
 @click.option("--raw_dir", default=os.path.join("data", "raw"), help="Path to raw data directory")
 @click.option("--processed_dir", default=os.path.join("data", "processed"), help="Path to processed data directory")
 def make_data(raw_dir: str, processed_dir: str):
-    """Process raw data and save it to processed directory"""
-    train_images, train_target = [], []
+    """Process raw data and save it to processed directory."""
+    train_images_list, train_target_list = [], []
     for i in range(5):
-        train_images.append(torch.load(os.path.join(raw_dir, f"train_images_{i}.pt")))
-        train_target.append(torch.load(os.path.join(raw_dir, f"train_target_{i}.pt")))
-    train_images = torch.cat(train_images)
-    train_target = torch.cat(train_target)
+        train_images_list.append(torch.load(os.path.join(raw_dir, f"train_images_{i}.pt")))
+        train_target_list.append(torch.load(os.path.join(raw_dir, f"train_target_{i}.pt")))
+    train_images: torch.Tensor = torch.cat(train_images_list)
+    train_target: torch.Tensor = torch.cat(train_target_list)
 
     test_images: torch.Tensor = torch.load(os.path.join(raw_dir, "test_images.pt"))
     test_target: torch.Tensor = torch.load(os.path.join(raw_dir, "test_target.pt"))

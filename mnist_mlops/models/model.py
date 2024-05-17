@@ -6,6 +6,7 @@ class MyCNN(torch.nn.Module):
     """Basic Convolutional neural network class."""
 
     def __init__(self) -> None:
+        """Initialize model."""
         super().__init__()
 
         self.conv1 = nn.Conv2d(1, 32, 3, 1)
@@ -43,6 +44,6 @@ if __name__ == "__main__":
     print(f"Model architecture {model}")
     print(f"Number of parameters {sum(p.numel() for p in model.parameters())}")
 
-    dummy_input = torch.rands(1, 1, 28, 28)
+    dummy_input = torch.randn(1, 1, 28, 28)
     output = model(dummy_input)
     print(f"Output shape {output.shape}")

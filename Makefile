@@ -46,11 +46,11 @@ data:
 
 ## Train the model on processed data
 train:
-	python $(PROJECT_NAME)/train_model.py train
+	python $(PROJECT_NAME)/train_model.py
 
 ## evaluate the model on processed data
 evaluate:
-	python $(PROJECT_NAME)/train_model.py evaluate
+	python $(PROJECT_NAME)/train_model.py
 
 #################################################################################
 # Documentation RULES                                                           #

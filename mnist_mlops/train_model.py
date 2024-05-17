@@ -23,7 +23,7 @@ def cli():
 @click.option("--models_dir", default="models", help="Path to models directory")
 @click.option("--figures_dir", default=os.path.join("reports", "figures"), help="Path to figures directory")
 def train(lr: float, batch_size: int, epochs: int, processed_dir: str, models_dir: str, figures_dir: str) -> None:
-    """Train a model"""
+    """Train a model."""
     model = MyCNN()
     model.to(DEVICE)
 
@@ -69,7 +69,7 @@ def train(lr: float, batch_size: int, epochs: int, processed_dir: str, models_di
 @click.argument("model_checkpoint")
 @click.option("--processed_dir", default=os.path.join("data", "processed"), help="Path to processed data directory")
 def evaluate(model_checkpoint, processed_dir) -> None:
-    """Evaluate a trained model"""
+    """Evaluate a trained model."""
     print("Evaluating model")
     print(model_checkpoint)
 

@@ -2,6 +2,17 @@
 
 Training basic neural networks in a MLOps setup on the mnist dataset
 
+## Get started
+
+```bash
+git clone git@github.com:SimonNy/mnist-mlops.git
+cd mnist-mlops
+make create_environment
+conda activate mnist_mlops
+make requirements
+dvc pull
+```
+
 ## Project structure
 
 The directory structure of the project looks like this:

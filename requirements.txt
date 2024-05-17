@@ -2,3 +2,7 @@ torch >= 2.1.0
 click >= 8.1.7
 numpy >= 1.26.4
 matplotlib >= 3.9.0
+
+# data version control
+dvc >= 3.50.2
+dvc-gdrive >= 3.0.1

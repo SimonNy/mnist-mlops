@@ -13,6 +13,23 @@ make requirements
 dvc pull
 ```
 
+## Docker
+
+Build training image for windows or linux machine.
+```bash
+docker build --platform linux/amd64 -f trainer.dockerfile . -t trainer:latest
+```
+
+Build training image for wMac with M1/M2
+```bash
+docker build --platform linux/arm64 -f trainer.dockerfile . -t trainer:latest
+```
+
+Mount a shared volume between local environment and dockercontainer
+```bash
+docker run --name {container_name} -v $(pwd)/models:/models/ trainer:latest
+```
+
 ## Project structure
 
 The directory structure of the project looks like this:

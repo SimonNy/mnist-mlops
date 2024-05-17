@@ -8,13 +8,6 @@ from models.model import MyCNN
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
-
-@click.group()
-def cli():
-    """Command line interface."""
-    pass
-
-
 @click.command()
 @click.option("--lr", default=1.0e3, help="learning rate to use for training")
 @click.option("--batch_size", default=32, help="batch size to use for training")
@@ -93,8 +86,5 @@ def evaluate(model_checkpoint, processed_dir) -> None:
     print(f"Test accuracy: {correct / total}")
 
 
-cli.add_command(train)
-cli.add_command(evaluate)
-
 if __name__ == "__main__":
-    cli()
+    train()

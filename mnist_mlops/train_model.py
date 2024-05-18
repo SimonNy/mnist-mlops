@@ -4,8 +4,8 @@ import click
 import matplotlib.pyplot as plt
 import torch
 
-from models.model import MyCNN
 from data.make_dataset import load_dataset
+from models.model import MyCNN
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 

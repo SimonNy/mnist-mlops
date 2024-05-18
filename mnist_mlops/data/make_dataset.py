@@ -1,8 +1,8 @@
 import os
 
 import click
-import torch
 import matplotlib.pyplot as plt
+import torch
 from mpl_toolkits.axes_grid1 import ImageGrid
 
 

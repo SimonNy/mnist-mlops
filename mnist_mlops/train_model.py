@@ -16,24 +16,27 @@ log = logging.getLogger(__name__)
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
 @click.command()
-@hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
+@hydra.main(version_base=None, config_path="../config", config_name="default_config.yaml")
 def train(config) -> None:
     """Train a model."""
     log.info(f"configuration: \n {OmegaConf.to_yaml(config)}")
-    hparams = config.experiment
+    hparams = config.experiment['hyperparameters']
+    architechture = config.experiment['architechture']
+    paths = config.experiment['paths']
+    
     torch.manual_seed(hparams["seed"])
 
     model = MyCNN(
-        input_dim = hparams["input_dim"],
-        first_dim = hparams["first_dim"],
-        second_dim = hparams["second_dim"],
-        third_dim = hparams["third_dim"],
-        output_dim = hparams["output_dim"],
-        dropout = hparams["dropout"]
+        input_dim = architechture["input_dim"],
+        first_dim = architechture["first_dim"],
+        second_dim = architechture["second_dim"],
+        third_dim = architechture["third_dim"],
+        output_dim = architechture["output_dim"],
+        dropout = architechture["dropout"]
     )
     model.to(DEVICE)
 
-    train_set, _ = load_dataset(hparams['processed_dir'])
+    train_set, _ = load_dataset(paths['processed_dir'])
 
     train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=hparams["batch_size"])
 
@@ -63,13 +66,13 @@ def train(config) -> None:
  
 
     log.info("Training complete")
-    torch.save(model.state_dict(), os.path.join(hparams["models_dir"], "model.pth"))
+    torch.save(model.state_dict(), os.path.join(paths["models_dir"], "model.pth"))
     fig, axs = plt.subplots(1, 2, figsize=(15, 5))
     axs[0].plot(statistics["train_loss"])
     axs[0].set_title("Train loss")
     axs[1].plot(statistics["train_accuracy"])
     axs[1].set_title("Train accuracy")
-    fig.savefig(os.path.join(hparams["figures_dir"], "training_statistics.png"))
+    fig.savefig(os.path.join(paths["figures_dir"], "training_statistics.png"))
 
 
 @click.command()

@@ -19,7 +19,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.ba
 @hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
 def train(config) -> None:
     """Train a model."""
-    print(f"configuration: \n {OmegaConf.to_yaml(config)}")
+    log.info(f"configuration: \n {OmegaConf.to_yaml(config)}")
     hparams = config.experiment
     torch.manual_seed(hparams["seed"])
 

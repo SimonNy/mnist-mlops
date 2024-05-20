@@ -12,7 +12,7 @@ output_dim: 10
 dropout: 0.5
 
 # Model training
-batch_size: 32
-lr: 0.03
+batch_size: 16
+lr: 0.01
 epochs: 10
 seed: 123

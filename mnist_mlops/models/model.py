@@ -7,7 +7,15 @@ from torch import nn
 class MyCNN(torch.nn.Module):
     """Basic Convolutional neural network class."""
 
-    def __init__(self) -> None:
+    def __init__(
+        self, 
+        input_dim: int, 
+        first_dim: int, 
+        second_dim: int, 
+        third_dim: int, 
+        output_dim: int, 
+        dropout: int
+    ) -> None:
         """Initialize model."""
         super().__init__()
 
@@ -39,13 +47,3 @@ class MyCNN(torch.nn.Module):
         x = self.dropout(x)
         x = self.fc1(x)
         return x
-
-
-if __name__ == "__main__":
-    model = MyCNN()
-    print(f"Model architecture {model}")
-    print(f"Number of parameters {sum(p.numel() for p in model.parameters())}")
-
-    dummy_input = torch.randn(1, 1, 28, 28)
-    output = model(dummy_input)
-    print(f"Output shape {output.shape}")

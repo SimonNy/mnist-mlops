@@ -1,39 +1,50 @@
 """Scripts for training a given model on the provided dataset."""
-
+import logging
 import os
 
 import click
+import hydra
 import matplotlib.pyplot as plt
 import torch
+from omegaconf import OmegaConf
 
 from data.make_dataset import load_dataset
 from models.model import MyCNN
 
+log = logging.getLogger(__name__)
+
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
-
 @click.command()
-@click.option("--lr", default=1.0e3, help="learning rate to use for training")
-@click.option("--batch_size", default=32, help="batch size to use for training")
-@click.option("--epochs", default=10, help="number of epochs to train for")
-@click.option("--processed_dir", default=os.path.join("data", "processed"), help="Path to processed data directory")
-@click.option("--models_dir", default="models", help="Path to models directory")
-@click.option("--figures_dir", default=os.path.join("reports", "figures"), help="Path to figures directory")
-def train(lr: float, batch_size: int, epochs: int, processed_dir: str, models_dir: str, figures_dir: str) -> None:
+@hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
+def train(config) -> None:
     """Train a model."""
-    model = MyCNN()
+    print(f"configuration: \n {OmegaConf.to_yaml(config)}")
+    hparams = config.experiment
+    torch.manual_seed(hparams["seed"])
+
+    model = MyCNN(
+        input_dim = hparams["input_dim"],
+        first_dim = hparams["first_dim"],
+        second_dim = hparams["second_dim"],
+        third_dim = hparams["third_dim"],
+        output_dim = hparams["output_dim"],
+        dropout = hparams["dropout"]
+    )
     model.to(DEVICE)
 
-    train_set, _ = load_dataset(processed_dir)
+    train_set, _ = load_dataset(hparams['processed_dir'])
 
-    train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size)
+    train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=hparams["batch_size"])
 
     loss_fn = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=hparams["lr"])
 
     statistics: dict[str, list] = {"train_loss": [], "train_accuracy": []}
-    for epoch in range(epochs):
-        model.train()
+    
+    log.info("Start training model")
+    model.train()
+    for epoch in range(hparams["epochs"]):
         for i, (img, target) in enumerate(train_dataloader):
             img, target = img.to(DEVICE), target.to(DEVICE)
             optimizer.zero_grad()
@@ -47,16 +58,18 @@ def train(lr: float, batch_size: int, epochs: int, processed_dir: str, models_di
             statistics["train_accuracy"].append(accuracy)
 
             if i % 100 == 0:
-                print(f"Epoch {epoch}, iter {i}, loss: {loss.item()}")
+                log.info(f"Epoch {epoch}, iter {i}, loss: {loss.item()}")
+        log.info(f"Epoch {epoch} complete")
+ 
 
-    print("Training complete")
-    torch.save(model.state_dict(), os.path.join(models_dir, "model.pth"))
+    log.info("Training complete")
+    torch.save(model.state_dict(), os.path.join(hparams["models_dir"], "model.pth"))
     fig, axs = plt.subplots(1, 2, figsize=(15, 5))
     axs[0].plot(statistics["train_loss"])
     axs[0].set_title("Train loss")
     axs[1].plot(statistics["train_accuracy"])
     axs[1].set_title("Train accuracy")
-    fig.savefig(os.path.join(figures_dir, "training_statistics.png"))
+    fig.savefig(os.path.join(hparams["figures_dir"], "training_statistics.png"))
 
 
 @click.command()

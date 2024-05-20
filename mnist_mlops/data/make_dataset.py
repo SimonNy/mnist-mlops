@@ -1,3 +1,5 @@
+"""Processes raw data files and shows examples."""
+
 import os
 
 import click
@@ -10,6 +12,7 @@ from mpl_toolkits.axes_grid1 import ImageGrid
 def cli():
     """Command line interface."""
     pass
+
 
 def normalize(images: torch.Tensor) -> torch.Tensor:
     """Normalize images."""
@@ -36,6 +39,7 @@ def process_mnist(raw_dir: str) -> tuple[torch.Tensor, torch.Tensor, torch.Tenso
 
     return train_images, train_target, test_images, test_target
 
+
 @click.command()
 @click.option("--raw_dir", default=os.path.join("data", "raw"), help="Path to raw data directory")
 @click.option("--processed_dir", default=os.path.join("data", "processed"), help="Path to processed data directory")
@@ -49,16 +53,19 @@ def make_dataset(raw_dir: str, processed_dir: str):
     torch.save(test_target, os.path.join(processed_dir, "test_target.pt"))
 
 
-def load_dataset(processed_dir: str = os.path.join("data", "processed")) -> tuple[torch.utils.data.Dataset, torch.utils.data.Dataset]: 
+def load_dataset(
+    processed_dir: str = os.path.join("data", "processed"),
+) -> tuple[torch.utils.data.Dataset, torch.utils.data.Dataset]:
     """Return train and test dataloaders for corrupt MNIST."""
-    train_images = torch.load(os.path.join(processed_dir,"train_images.pt"))
-    train_target = torch.load(os.path.join(processed_dir,"train_target.pt"))
+    train_images = torch.load(os.path.join(processed_dir, "train_images.pt"))
+    train_target = torch.load(os.path.join(processed_dir, "train_target.pt"))
     train_dataset = torch.utils.data.TensorDataset(train_images, train_target)
 
-    test_images = torch.load(os.path.join(processed_dir,"test_images.pt"))
-    test_target = torch.load(os.path.join(processed_dir,"test_target.pt"))
+    test_images = torch.load(os.path.join(processed_dir, "test_images.pt"))
+    test_target = torch.load(os.path.join(processed_dir, "test_target.pt"))
     test_dataset = torch.utils.data.TensorDataset(test_images, test_target)
     return train_dataset, test_dataset
+
 
 def show_image_and_target(images: torch.Tensor, target: torch.Tensor) -> None:
     """Plot images and their labels in a grid."""
@@ -70,6 +77,7 @@ def show_image_and_target(images: torch.Tensor, target: torch.Tensor) -> None:
         ax.set_title(f"Label: {label.item()}")
         ax.axis("off")
     plt.show()
+
 
 @click.command()
 @click.option("--processed_dir", default=os.path.join("data", "processed"), help="Path to processed data directory")

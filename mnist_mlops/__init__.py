@@ -1,2 +1,1 @@
-from mnist_mlops.models.model import MyCNN
-from mnist_mlops.predict_model import predict
+"""mnist_mlops is an example of building a MLOps pipeline for the mnist dataset."""

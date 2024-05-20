@@ -1,3 +1,5 @@
+"""Pipeline for running a given model on a dataloader."""
+
 import torch
 
 

@@ -1,3 +1,5 @@
+"""Test module for running unit tests on the package functionality."""
+
 import os
 
 _TEST_ROOT = os.path.dirname(__file__)  # root of test folder

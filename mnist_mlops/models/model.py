@@ -1,3 +1,5 @@
+"""Defines a basic CNN to classify the mnist numbers."""
+
 import torch
 from torch import nn
 

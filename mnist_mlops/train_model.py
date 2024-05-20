@@ -1,3 +1,5 @@
+"""Scripts for training a given model on the provided dataset."""
+
 import os
 
 import click
@@ -8,6 +10,7 @@ from data.make_dataset import load_dataset
 from models.model import MyCNN
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+
 
 @click.command()
 @click.option("--lr", default=1.0e3, help="learning rate to use for training")
@@ -22,13 +25,13 @@ def train(lr: float, batch_size: int, epochs: int, processed_dir: str, models_di
     model.to(DEVICE)
 
     train_set, _ = load_dataset(processed_dir)
-    
+
     train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size)
 
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
-    statistics: dict[str,list] = {"train_loss": [], "train_accuracy": []}
+    statistics: dict[str, list] = {"train_loss": [], "train_accuracy": []}
     for epoch in range(epochs):
         model.train()
         for i, (img, target) in enumerate(train_dataloader):

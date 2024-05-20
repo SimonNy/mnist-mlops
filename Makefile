@@ -44,7 +44,7 @@ clean:
 data:
 	python $(PROJECT_NAME)/data/make_dataset.py make-dataset
 
-## Print information of data size and show examples 
+## Print information of data size and show examples
 data_example:
 	python $(PROJECT_NAME)/data/make_dataset.py data-example
 

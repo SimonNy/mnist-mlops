@@ -1,9 +1,12 @@
+"""Tests related to the mnist_mlops.data.make_dataset.py file."""
+
 import torch
 
 from mnist_mlops.data.make_dataset import load_dataset
 
 
 def test_data():
+    """Test the size and shape of the processed data."""
     train, test = load_dataset()
     assert len(train) == 50000
     assert len(test) == 5000
@@ -14,4 +17,4 @@ def test_data():
         train_targets = torch.unique(train.tensors[1])
         assert (train_targets == torch.arange(0, 10)).all()
         test_targets = torch.unique(test.tensors[1])
-        assert (test_targets == torch.arange(0,10)).all()
+        assert (test_targets == torch.arange(0, 10)).all()

@@ -10,8 +10,9 @@ paths:
 mlflow:
   experiment_name: "mnist_cnn"
   model_name: "mnist_cnn_model"
+  model_registry: "mnist_cnn_registry"
 # Architecture 
-architechture:
+architecture:
   input_dim: 1 
   first_dim: 32 
   second_dim: 64 

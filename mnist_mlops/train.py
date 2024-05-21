@@ -30,7 +30,7 @@ def train_model(
     test_data: torch.utils.data.DataLoader,
     model_params: dict,
     hparams: dict,
-    model_path: str
+    model_path: str,
 ) -> None:
     """Train the CNN model using the specified configuration.
 

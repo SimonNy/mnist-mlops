@@ -30,7 +30,7 @@ def run_experiment(config: DictConfig):
         mlflow.autolog()
 
         hparams = config.experiment["hyperparameters"]
-        architechture = config.experiment["architechture"]
+        architecture = config.experiment["architecture"]
         paths = config.experiment["paths"]
 
         for sub_dict in config.experiment.items():
@@ -40,7 +40,7 @@ def run_experiment(config: DictConfig):
         train_data, test_data = define_data(hydra_path(paths["processed_dir"]), hparams)
 
         # train model
-        train_model(train_data, test_data, architechture, hparams, hydra_path(paths["models_dir"]))
+        train_model(train_data, test_data, architecture, hparams, hydra_path(paths["models_dir"]))
 
         # get model metrics
 

@@ -17,7 +17,7 @@ def config():
 
 def test_model(config):
     """Test if the defined CNN has the correct shape."""
-    model_params = config.experiment["architechture"]
+    model_params = config.experiment["architecture"]
 
     model = MyCNN(**model_params)
     x = torch.randn(1, 1, 28, 28)

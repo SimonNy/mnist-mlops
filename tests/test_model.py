@@ -4,7 +4,7 @@ import pytest
 import torch
 from hydra import compose, initialize
 
-from mnist_mlops.models.model import MyCNN
+from src.models.model import MyCNN
 
 
 @pytest.fixture

@@ -2,7 +2,7 @@
 
 import torch
 
-from mnist_mlops.data.make_dataset import load_dataset
+from src.data.make_dataset import load_dataset
 
 
 def test_data():

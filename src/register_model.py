@@ -2,6 +2,8 @@ import mlflow
 import mlflow.pytorch
 import torch
 from omegaconf import OmegaConf
+from mlflow.models.signature import infer_signature, ModelSignature
+from mlflow.types import Schema, ColSpec
 
 from models.model import MyCNN
 
@@ -36,16 +38,23 @@ def register_model(cfg_path: str, model_path: str):
     """
     # Load configuration
     config = OmegaConf.load(cfg_path)
-    print(config)
     # Load the model from the checkpoint
     model = load_model_from_checkpoint(MyCNN, model_path, config)
 
     mlflow.set_experiment(config.mlflow.experiment_name)
 
+    sample_input = torch.randn(1, 1, 28, 28)
+    sample_output = model(sample_input)
+    signature = infer_signature(sample_input.numpy(), sample_output.detach().numpy())
+
+
     with mlflow.start_run() as run:
         # Log the model
         mlflow.pytorch.log_model(
-            pytorch_model=model, artifact_path="model", registered_model_name=config.mlflow.model_registry
+            pytorch_model=model, 
+            artifact_path="model", 
+            registered_model_name=config.mlflow.model_registry,
+            signature=signature,
         )
         print(f"Model registered in experiment: {config.mlflow.experiment_name} with run ID: {run.info.run_id}")
 

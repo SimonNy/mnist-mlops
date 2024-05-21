@@ -1,3 +1,6 @@
+# defaults:
+#   - override hydra/job_logging: disabled
+
 # data and model paths
 paths:
   processed_dir: "data/processed"
@@ -5,7 +8,8 @@ paths:
   figures_dir: "reports/figures"
 
 mlflow:
-  experiment_name: mnist_cnn
+  experiment_name: "mnist_cnn"
+  model_name: "mnist_cnn_model"
 # Architecture 
 architechture:
   input_dim: 1 
@@ -14,13 +18,13 @@ architechture:
   third_dim: 128 
   output_dim: 10
   dropout: 0.5
+  lr: 0.03
 
 # Model training
 hyperparameters:
   batch_size: 32
-  lr: 0.03
   epochs: 10
   seed: 123
 
 metrics:
-  score: metrics.f1_score
+  score: "metrics.f1_score"

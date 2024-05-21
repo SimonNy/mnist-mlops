@@ -183,3 +183,4 @@ cython_debug/
 /reports
 /mlruns
 /outputs
+/lightning_logs

@@ -1,3 +1,5 @@
+"""Score data with trained model."""
+
 import mlflow.pytorch
 import numpy as np
 import torch
@@ -19,10 +21,9 @@ def load_model(experiment_name: str, model_registry: str):
 
     """
     # Load the model
-    model = mlflow.pytorch.load_model(
-        model_uri=f"models:/{model_registry}/latest"
-    )
+    model = mlflow.pytorch.load_model(model_uri=f"models:/{model_registry}/latest")
     return model
+
 
 def preprocess_image(image_path):
     """Preprocess the input image.
@@ -37,7 +38,7 @@ def preprocess_image(image_path):
 
     """
     # Open the image file
-    image = Image.open(image_path).convert('L')  # Convert to grayscale
+    image = Image.open(image_path).convert("L")  # Convert to grayscale
     # Resize the image to 28x28
     image = image.resize((28, 28))
     # Convert the image to a numpy array
@@ -47,6 +48,7 @@ def preprocess_image(image_path):
     # Convert to a tensor and add batch dimension
     image_tensor = torch.tensor(image_np).unsqueeze(0).unsqueeze(0)
     return image_tensor
+
 
 def score_model(model, image_tensor):
     """Use the trained model to make predictions on the input image.
@@ -72,10 +74,10 @@ def score_model(model, image_tensor):
 if __name__ == "__main__":
     # Path to the configuration file
     config_path = "config/experiment/experiment1.yaml"
-    
+
     # Load configuration
     cfg = OmegaConf.load(config_path)
-    
+
     # Load the registered model
     model = load_model(experiment_name=cfg.mlflow.experiment_name, model_registry=cfg.mlflow.model_registry)
 

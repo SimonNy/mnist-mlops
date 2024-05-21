@@ -15,3 +15,6 @@ stages:
     arguments:
       cfg_path: config/experiment/experiment1.yaml
       model_path: ${outputs.train_model.model_checkpoint}
+  - name: score_model
+    description: Score on sample data
+    script: src/score.py

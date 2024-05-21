@@ -1,9 +1,10 @@
+"""Register model in mlflow."""
+
 import mlflow
 import mlflow.pytorch
 import torch
+from mlflow.models.signature import infer_signature
 from omegaconf import OmegaConf
-from mlflow.models.signature import infer_signature, ModelSignature
-from mlflow.types import Schema, ColSpec
 
 from models.model import MyCNN
 
@@ -47,12 +48,11 @@ def register_model(cfg_path: str, model_path: str):
     sample_output = model(sample_input)
     signature = infer_signature(sample_input.numpy(), sample_output.detach().numpy())
 
-
     with mlflow.start_run() as run:
         # Log the model
         mlflow.pytorch.log_model(
-            pytorch_model=model, 
-            artifact_path="model", 
+            pytorch_model=model,
+            artifact_path="model",
             registered_model_name=config.mlflow.model_registry,
             signature=signature,
         )

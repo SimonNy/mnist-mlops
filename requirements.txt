@@ -3,6 +3,7 @@ pytorch-lightning >= 2.2.4
 click >= 8.1.7
 numpy >= 1.26.4
 matplotlib >= 3.9.0
+pillow >= 10.3.0
 
 # data version control
 dvc >= 3.50.2

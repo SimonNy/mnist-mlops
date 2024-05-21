@@ -1,0 +1,17 @@
+# pipeline.yaml
+
+# Define pipeline stages
+stages:
+  - name: train_model
+    description: Train the CNN model
+    script: src/run_experiment.py
+    outputs:
+      - name: model_checkpoint
+        description: Path to the best model checkpoint
+        type: str
+  - name: register_model
+    description: Register the trained model with MLflow
+    script: src/register_model.py
+    arguments:
+      cfg_path: config/experiment/experiment1.yaml
+      model_path: ${outputs.train_model.model_checkpoint}

@@ -5,6 +5,7 @@ import os
 import hydra
 import mlflow
 from hydra import utils
+from omegaconf import DictConfig
 from train import define_data, train_model
 
 
@@ -14,7 +15,7 @@ def hydra_path(path: str) -> str:
 
 
 @hydra.main(version_base=None, config_path="../config", config_name="default_config.yaml")
-def run_experiment(config: dict):
+def run_experiment(config: DictConfig):
     """Run the training experiment with MLflow tracking.
 
     Args:

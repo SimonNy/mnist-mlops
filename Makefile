@@ -42,7 +42,19 @@ clean:
 
 ## Process raw data into processed data
 data:
-	python $(PROJECT_NAME)/data/make_dataset.py
+	python $(PROJECT_NAME)/data/make_dataset.py make-dataset
+
+## Print information of data size and show examples
+data_example:
+	python $(PROJECT_NAME)/data/make_dataset.py data-example
+
+## Train the model on processed data
+train:
+	python $(PROJECT_NAME)/train_model.py
+
+## evaluate the model on processed data
+evaluate:
+	python $(PROJECT_NAME)/train_model.py
 
 #################################################################################
 # Documentation RULES                                                           #

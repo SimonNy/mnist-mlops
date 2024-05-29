@@ -5,7 +5,7 @@ from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 
 from data.make_dataset import load_dataset
-from models.model import MyCNN
+from models.cnn_model import MyCNN
 
 # from ignite.handlers import ModelCheckpoint, EarlyStopping
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")

@@ -6,7 +6,7 @@ import torch
 from mlflow.models.signature import infer_signature
 from omegaconf import OmegaConf
 
-from models.model import MyCNN
+from models.cnn_model import MyCNN
 
 
 def load_model_from_checkpoint(model_class, checkpoint_path, config):

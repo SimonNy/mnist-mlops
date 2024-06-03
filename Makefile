@@ -8,7 +8,7 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = mnist_mlops
+PROJECT_NAME = src
 PYTHON_VERSION = 3.11
 PYTHON_INTERPRETER = python
 
@@ -50,11 +50,15 @@ data_example:
 
 ## Train the model on processed data
 train:
-	python $(PROJECT_NAME)/train_model.py
+	python $(PROJECT_NAME)/run_experiment.py
 
 ## evaluate the model on processed data
-evaluate:
-	python $(PROJECT_NAME)/train_model.py
+pipeline:
+	python run_pipeline.py
+
+## visualize model results
+visualize:
+	python $(PROJECT_NAME)/visualizations/visualize.py
 
 #################################################################################
 # Documentation RULES                                                           #

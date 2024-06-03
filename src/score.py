@@ -3,25 +3,34 @@
 import mlflow.pytorch
 import numpy as np
 import torch
+from mlflow import MlflowClient
 from omegaconf import OmegaConf
 from PIL import Image
 
+client = MlflowClient()
 
-def load_model(experiment_name: str, model_registry: str):
+
+def load_model(model_name: str):
     """Load the registered model from MLflow.
 
     Args:
     ----
-        experiment_name (str): Name of the MLflow experiment.
-        model_registry (str): Name of the registered model.
+        model_name (str): Name of the registered model.
 
     Returns:
     -------
         torch.nn.Module: The loaded PyTorch model.
 
     """
-    # Load the model
-    model = mlflow.pytorch.load_model(model_uri=f"models:/{model_registry}/latest")
+    versions = client.search_model_versions(f"name='{model_name}'")
+
+    # Find the latest version by comparing the version numbers
+    latest_version_info = max(versions, key=lambda v: int(v.version))
+
+    model_uri = f"models:/{model_name}/{latest_version_info.version}"
+
+    model = mlflow.pytorch.load_model(model_uri)
+
     return model
 
 
@@ -79,10 +88,10 @@ if __name__ == "__main__":
     cfg = OmegaConf.load(config_path)
 
     # Load the registered model
-    model = load_model(experiment_name=cfg.mlflow.experiment_name, model_registry=cfg.mlflow.model_registry)
+    model = load_model(model_name=cfg.mlflow.model_registry)
 
     # Path to the custom input image
-    image_path = "data/test/drawn_image3.jpg"
+    image_path = "data/test/drawn_image2.jpg"
 
     # Preprocess the image
     image_tensor = preprocess_image(image_path)

@@ -1,0 +1,14 @@
+net:
+  _target_: src.models.components.cnn.CNN
+  input_dim: 1 
+  first_dim: 32 
+  second_dim: 64 
+  third_dim: 128 
+  output_dim: 10
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.001
+  weight_decay: 0.0
+  dropout: 0.01

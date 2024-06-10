@@ -1,0 +1,22 @@
+# path to root directory
+root_dir: $(oc.env:PROJECT_ROOT)
+
+# path to processed data directory
+data_processed_dir: ${paths.root_dir}/data/processed/
+
+# path to raw data directory
+data_raw_dir: ${paths.root_dir}/data/raw/
+
+# path to test data directory
+data_test_dir: ${paths.root_dir}/data/test/
+
+# path to logging directory
+log_dir: ${paths.root_dir}/logs/
+
+# path to output directory, created dynamically by hydra
+# path generation pattern is specified in `configs/hydra/default.yaml`
+# use it to store all files generated during the run, like ckpts and metrics
+output_dir: ${hydra:runtime.output_dir}
+
+# path to working directory
+work_dir: ${hydra:runtime.cwd}
